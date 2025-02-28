@@ -111,7 +111,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 text-black">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-3/4 max-w-4xl">
         <h1 className="text-center font-bold text-2xl mb-4 text-blue-600">Ultimate Quiz Challenge! 🏆</h1>
         <h2 className="text-center font-bold">Question:</h2>
         <p className="text-center">{currentQuestion.question}</p>
