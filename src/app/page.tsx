@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation'
 import K2SDK from '@dat-platform/advertiser';
 // import telSDK from 'telegram-sdk-adv';
 
@@ -13,7 +14,9 @@ const questionsList = [
 ];
 
 export default function Home() {
-
+  const searchParams = useSearchParams()
+  const params = Object.fromEntries(searchParams.entries())
+  const {id:idToken = '', advertiser_id:advertiserId = '6253768769'} = params
   const [currentQuestion, setCurrentQuestion] = useState({ question: "", answer: "" });
   const [answer, setAnswer] = useState("");
   const [result, setResult] = useState("");
@@ -21,6 +24,7 @@ export default function Home() {
   const [correctCount, setCorrectCount] = useState(0);
   const [correctAttemptsRequired, setCorrectAttemptsRequired] = useState(3);
   const [rewardEarned, setRewardEarned] = useState(false);
+  
 
   const k2SDK = K2SDK as any;
   useEffect(() => {
@@ -29,8 +33,6 @@ export default function Home() {
         await k2SDK.initialize({
           apiKey: "EjJvklHA2dq00xGJRuRa5QCr96dUAkdbJyxuixQ21ADYGcCeJT5LuDf2thVDlaLl"
         });
-        console.log(k2SDK);
-        
         await new Promise(resolve => setTimeout(resolve, 1000));
         // K2SDK.getID()
         return true;
@@ -47,7 +49,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if(rewardEarned){
+    if(rewardEarned && idToken && idToken != "" && advertiserId && advertiserId != ""){
       callAdvertiserWebhook()
     }
   }, [rewardEarned])
@@ -95,8 +97,6 @@ export default function Home() {
   const callAdvertiserWebhook = async () => {
     try {
       const sdk = k2SDK.getInstance();
-      const advertiserId = "12345678"
-      const idToken = "7a470edb5e8d35cabaea2b79b7da5b78a2e8277c6f2555ba897a76b9157010759d2d07a01f3fc6b86b935175f3bf4f7aaa4d5328825dd0639b1228e4a15ecd99bbc774bcf708d9114fe136fd91e359ed"
       const rewardsRes = await sdk.markActionComplete(advertiserId, idToken);
       console.log('✅ rewards sent successfully:', rewardsRes);
     } catch (error) {
