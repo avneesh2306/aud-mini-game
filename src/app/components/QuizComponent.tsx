@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation'
 import K2SDK from '@dat-platform/advertiser';
+// import K2SDK from '@dat-platform/k2-advertising';
 // import telSDK from 'telegram-sdk-adv';
 
 
